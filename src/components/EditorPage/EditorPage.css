@@ -1,0 +1,49 @@
+.siteHeader {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #BADA55;
+  margin-bottom: 40px;
+}
+
+.siteHeader #navigation a::after {
+  content: '|';
+  display: inline-block;
+  padding: 0 10px;
+}
+
+.footer {
+  margin-top: 40px;
+  text-align: center;
+  padding: 20px 0;
+  color: white;
+}
+
+.form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form .form-row {
+  padding: 10px 0;
+}
+
+.form p {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.form .form-row input,
+.form .form-row select,
+.form .form-row textarea {
+  width: 100%;
+  padding: 10px;
+  border: solid 1px #000;
+}
+
+.form .form-row textarea {
+  height: 200px;
+}
