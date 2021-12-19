@@ -11,6 +11,7 @@ function EditorPage () {
     category: '',
     body: '',
   })
+  console.log('state', state);
 
   function handleFormFieldChange (e) {
     const id = e.target.id
@@ -23,7 +24,16 @@ function EditorPage () {
   }
 
   const handleFormSubmit = () => {
-    sendToAPI(state)
+    const apiResponse = sendToAPI(state);
+    setState(prevState => ({
+      ...prevState,
+      ...apiResponse
+    }))
+    return false;
+  }
+  let message = null;
+  if(typeof state.message !== 'undefiend') {
+    message = (<div>{state.message}</div>);
   }
 
   return(
@@ -39,6 +49,7 @@ function EditorPage () {
 
       <form className="form">
         <div className="form-row">
+          {message}
           <p>Title</p>
           <input
             type="text"
@@ -87,7 +98,7 @@ function EditorPage () {
           />
         </div>
         <button
-          type="submit"
+          type="button"
           onClick={handleFormSubmit}
         >
           Save
