@@ -93,34 +93,37 @@ function EditorPage () {
       <form className="form" id="article-from">
         <div className="form-row">
           {message}
-          <p>Title</p>
+          <label>Title
           <input
             type="text"
             id="title"
             placeholder="Cool Article Title"
             onChange={handleFormFieldChange}
           />
+          </label>
         </div>
         <div className="form-row">
-          <p>Author</p>
+          <label>Author
           <input
             type="text"
             id="author"
             placeholder="William Shakespeare"
             onChange={handleFormFieldChange}
           />
+          </label>
         </div>
         <div className="form-row">
-          <p>Author Email</p>
+          <label>Author Email
           <input
             type="text"
             id="authorEmail"
             placeholder="william.shakespeare@leafgroup.com"
             onChange={handleFormFieldChange}
           />
+          </label>
         </div>
         <div className="form-row">
-          <p>Category</p>
+          <label>Category
           <select
             id="category"
             onChange={handleFormFieldChange}
@@ -130,9 +133,10 @@ function EditorPage () {
             <option value="Trains">Trains</option>
             <option value="Automobiles">Automobiles</option>
           </select>
+          </label>
         </div>
         <div className="form-row">
-          <p>Body</p>
+          <label>Body
           <Editor
             onInit={(evt, editor) => editorRef.current = editor}
             initialValue="<p>This is the initial content of the editor.</p>"
@@ -153,6 +157,7 @@ function EditorPage () {
               content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
             }}
           />
+          </label>
         </div>
         <button
           type="button"
