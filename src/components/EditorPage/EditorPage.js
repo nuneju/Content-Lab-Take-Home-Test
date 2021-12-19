@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './EditorPage.css'
 import { sendToAPI } from '../../mockHelpers'
+import _ from 'underscore'
 
 function EditorPage () {
 
@@ -11,7 +12,6 @@ function EditorPage () {
     category: '',
     body: '',
   })
-  console.log('state', state);
 
   function handleFormFieldChange (e) {
     const id = e.target.id
@@ -22,8 +22,41 @@ function EditorPage () {
       [id]: value
     }))
   }
-
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
   const handleFormSubmit = () => {
+    const isRequired = Object.keys(state).every(function(key){
+      return state[key] !== ''
+    })
+    const isEmailValid = validateEmail(state.authorEmail) !== null;
+    const isBodyValid = state.body.length > 50;
+    let errorMessage = {
+      ok: 0,
+      message: ''
+    }
+    if(isRequired === false) {
+      errorMessage.message += 'All fields are required.';
+    }
+    if(isEmailValid === false) {
+      errorMessage.message += 'The author email field should be validated to be a proper email format. /n';
+    }
+    if(isBodyValid === false) {
+      errorMessage.message += 'The "body" field should have a minimum of 50 characters. ';
+    }
+    
+    if(isRequired === false || isEmailValid === false || isBodyValid === false) {
+      setState(prevState => ({
+        ...prevState,
+        ...errorMessage
+      }))
+      return
+    }
+
     const apiResponse = sendToAPI(state);
     setState(prevState => ({
       ...prevState,
@@ -31,6 +64,7 @@ function EditorPage () {
     }))
     return false;
   }
+
   let message = null;
   if(typeof state.message !== 'undefiend') {
     message = (<div>{state.message}</div>);
@@ -47,7 +81,7 @@ function EditorPage () {
         </div>
       </header>
 
-      <form className="form">
+      <form className="form" id="article-from">
         <div className="form-row">
           {message}
           <p>Title</p>
