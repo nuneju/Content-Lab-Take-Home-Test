@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './ArticlesPage.css'
 import { fetchArticlesFromAPI } from '../../mockHelpers'
+import _ from 'underscore'
 
 function ArticlesPage () {
 
@@ -8,9 +9,9 @@ function ArticlesPage () {
     articles: fetchArticlesFromAPI(),
     totalViews: 0,
   })
-
-  for (let i = 0; i < state.articles.articles.length; i++) {
-    state.totalViews = state.totalViews + state.articles.articles[i].views
+  console.log('articlases', state.articles);
+  for (let i = 0; i < state.articles.length; i++) {
+    state.totalViews = state.totalViews + state.articles[i].views
   }
 
   return(
@@ -29,11 +30,11 @@ function ArticlesPage () {
       <hr/>
 
       <div className="articles">
-        {_.get(state, 'articles.articles', []).map((article, i) => {
-          return <p key={i} style={{ marginBottom: '40px' }}>
+        {_.get(state, 'articles', []).map((article, i) => {
+          return <div key={i} style={{ marginBottom: '40px' }}>
             <h4 style={{ marginBottom: '5px' }}>{ article.title }</h4>
             <p style={{ marginTop: 0 }}>Written By:{ article.author }</p>
-          </p>
+          </div>
         })}
       </div>
 
