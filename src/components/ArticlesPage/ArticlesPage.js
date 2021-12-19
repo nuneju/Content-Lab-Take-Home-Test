@@ -9,9 +9,9 @@ function ArticlesPage () {
     articles: fetchArticlesFromAPI(),
     totalViews: 0,
   })
-  console.log('articlases', state.articles);
+
   for (let i = 0; i < state.articles.length; i++) {
-    state.totalViews = state.totalViews + state.articles[i].views
+    state.totalViews = parseInt(state.totalViews, 10) + parseInt(state.articles[i].views, 10)
   }
 
   return(
