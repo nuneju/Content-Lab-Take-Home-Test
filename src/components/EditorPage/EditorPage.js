@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import './EditorPage.css'
-import { sendToAPI } from '../../mockHelpers'
+import { sendToAPI, getAvailableCategories } from '../../mockHelpers'
 import _ from 'underscore'
 import { Editor } from '@tinymce/tinymce-react';
 
@@ -20,7 +20,7 @@ function EditorPage () {
       [id]: editorValue
     }))
   }
-  console.log('state', state);
+  console.log('getAvailableCategories', );
   function handleFormFieldChange (e) {
     const id = e.target.id;
     const value = e.target.value;
@@ -79,6 +79,11 @@ function EditorPage () {
 
   const editorRef = useRef(null);
 
+  const options = getAvailableCategories().map((cat, i)=>{
+    return (<option value="cat" key={cat}>{cat}</option>)
+  })
+
+
   return(
     <div id="page-container">
       <header className="siteHeader">
@@ -128,10 +133,7 @@ function EditorPage () {
             id="category"
             onChange={handleFormFieldChange}
           >
-            <option value="">-</option>
-            <option value="Planes">Planes</option>
-            <option value="Trains">Trains</option>
-            <option value="Automobiles">Automobiles</option>
+            {options}
           </select>
           </label>
         </div>
