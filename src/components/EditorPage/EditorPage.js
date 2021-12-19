@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import './EditorPage.css'
 import { sendToAPI } from '../../mockHelpers'
 import _ from 'underscore'
+import { Editor } from '@tinymce/tinymce-react';
 
 function EditorPage () {
 
@@ -12,11 +13,17 @@ function EditorPage () {
     category: '',
     body: '',
   })
-
+  function handleEditorChange (editorValue) {
+    const id = 'body'
+    setState(prevState => ({
+      ...prevState,
+      [id]: editorValue
+    }))
+  }
+  console.log('state', state);
   function handleFormFieldChange (e) {
-    const id = e.target.id
-    const value = e.target.value
-
+    const id = e.target.id;
+    const value = e.target.value;
     setState(prevState => ({
       ...prevState,
       [id]: value
@@ -43,7 +50,7 @@ function EditorPage () {
       errorMessage.message += 'All fields are required.';
     }
     if(isEmailValid === false) {
-      errorMessage.message += 'The author email field should be validated to be a proper email format. /n';
+      errorMessage.message += 'The author email field should be validated to be a proper email format.';
     }
     if(isBodyValid === false) {
       errorMessage.message += 'The "body" field should have a minimum of 50 characters. ';
@@ -69,6 +76,8 @@ function EditorPage () {
   if(typeof state.message !== 'undefiend') {
     message = (<div>{state.message}</div>);
   }
+
+  const editorRef = useRef(null);
 
   return(
     <div id="page-container">
@@ -124,11 +133,25 @@ function EditorPage () {
         </div>
         <div className="form-row">
           <p>Body</p>
-          <textarea
-            type="text"
-            id="body"
-            placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, cumque."
-            onChange={handleFormFieldChange}
+          <Editor
+            onInit={(evt, editor) => editorRef.current = editor}
+            initialValue="<p>This is the initial content of the editor.</p>"
+            onEditorChange = {handleEditorChange}
+            id="editor"
+            init={{
+              height: 500,
+              menubar: false,
+              plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+              ],
+              toolbar: 'undo redo | formatselect | ' +
+              'bold italic backcolor | alignleft aligncenter ' +
+              'alignright alignjustify | bullist numlist outdent indent | ' +
+              'removeformat | help',
+              content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+            }}
           />
         </div>
         <button
